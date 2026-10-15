@@ -13,6 +13,9 @@ Honeypot JSON decodes into `data.*` fields, so visualizations need no custom dec
 Shows the breadcrumb at a glance: which traps were hit, from which IP, and how many
 times the honeytoken was used.
 
+
+![Honeynet SOC Dashboard](images/honeynet-dashboard.png)
+
 ## Dashboard B — "Lab SOC Overview" (all sources)
 | Panel | Type | Definition |
 |---|---|---|
@@ -24,6 +27,9 @@ A broad view across every source (honeypots, service health, VPN, system events)
 Note: Wazuh's built-in **Threat Hunting** / **Security Events** already show all
 alerts — in a real SOC you keep the built-in overview and add scenario dashboards
 on top, which is exactly this split (A = scenario, B = lab overview).
+
+
+![Lab SOC Overview](images/lab-soc-overview.png)
 
 ## PDF reporting
 The dashboard **Reporting** button generates an on-demand PDF of the whole board —
