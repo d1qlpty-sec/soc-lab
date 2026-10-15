@@ -1,0 +1,69 @@
+<!--
+  Custom Wazuh detection rules — SOC home lab
+  Location on manager (wazuh-soc): /var/ossec/etc/rules/local_rules.xml
+  Groups: honeynet (honeypot detections), lab_services (service health monitoring)
+-->
+
+<group name="honeynet,">
+
+  <!-- fake-mysql honeypot: any connection to decoy MySQL port 3306 -->
+  <rule id="100400" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="honeypot">fake_mysql</field>
+    <description>Honeypot fake-mysql: connection to decoy MySQL port 3306 from $(src_ip)</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+
+  <!-- fake-ssh honeypot: connection -->
+  <rule id="100401" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="honeypot">fake_ssh</field>
+    <field name="event">connection</field>
+    <description>Honeypot fake-ssh: connection to decoy SSH port 2222 from $(src_ip)</description>
+    <mitre>
+      <id>T1046</id>
+    </mitre>
+  </rule>
+
+  <!-- fake-ssh honeypot: login attempt (credentials captured) -->
+  <rule id="100402" level="12">
+    <decoded_as>json</decoded_as>
+    <field name="honeypot">fake_ssh</field>
+    <field name="event">login_attempt</field>
+    <description>Honeypot fake-ssh: login attempt user '$(username)' from $(src_ip)</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <!-- HONEYTOKEN: decoy credential used (cascades off 100402) -->
+  <rule id="100403" level="14">
+    <if_sid>100402</if_sid>
+    <field name="username">d1_admin</field>
+    <description>HONEYTOKEN USED: decoy credential 'd1_admin' from $(src_ip) - attacker followed the breadcrumb</description>
+    <mitre>
+      <id>T1078</id>
+    </mitre>
+  </rule>
+
+</group>
+
+<group name="lab_services,">
+
+  <!-- service status report (command monitoring output, child of rule 530) -->
+  <rule id="100500" level="3">
+    <if_sid>530</if_sid>
+    <match>service </match>
+    <description>Lab service status report</description>
+  </rule>
+
+  <!-- service DOWN -->
+  <rule id="100501" level="10">
+    <if_sid>100500</if_sid>
+    <match>inactive</match>
+    <description>Lab service DOWN: $(log)</description>
+  </rule>
+
+</group>

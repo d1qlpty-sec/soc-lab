@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firewall Siege</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">Firewall&nbsp;Siege</span>
+      <span class="brand-sub">network defense arena</span>
+    </div>
+    <div class="session" id="session">
+      <button class="btn btn-ghost" id="authOpenBtn">Sign in</button>
+      <span class="who" id="who" hidden>player: <b id="whoName"></b></span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- left column: game -->
+    <section class="stage">
+      <div class="hud">
+        <div class="stat"><span class="stat-k">core</span><span class="stat-v" id="hpVal">20</span></div>
+        <div class="stat"><span class="stat-k">credits</span><span class="stat-v" id="credVal">120</span></div>
+        <div class="stat"><span class="stat-k">wave</span><span class="stat-v" id="waveVal">0 / 10</span></div>
+        <div class="stat"><span class="stat-k">score</span><span class="stat-v" id="scoreVal">0</span></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="game" width="900" height="520"></canvas>
+        <div class="overlay" id="overlay">
+          <div class="overlay-card">
+            <h1 id="ovTitle">Firewall Siege</h1>
+            <p id="ovText">Place defense nodes on open cells. Don't let malicious packets reach the core. Survive 10 waves.</p>
+            <button class="btn btn-primary" id="startBtn">Start</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="build-bar" id="buildBar">
+        <button class="tower-btn" data-tower="filter">
+          <span class="tw-dot tw-filter"></span>
+          <span class="tw-name">Filter</span>
+          <span class="tw-cost">40</span>
+        </button>
+        <button class="tower-btn" data-tower="scanner">
+          <span class="tw-dot tw-scanner"></span>
+          <span class="tw-name">Scanner</span>
+          <span class="tw-cost">70</span>
+        </button>
+        <button class="tower-btn" data-tower="throttle">
+          <span class="tw-dot tw-throttle"></span>
+          <span class="tw-name">Throttle</span>
+          <span class="tw-cost">55</span>
+        </button>
+        <button class="btn btn-primary wave-btn" id="waveBtn">Send wave</button>
+      </div>
+      <p class="hint" id="hint">Pick a node and click an open cell. Throttle slows packets, Scanner hits an area.</p>
+    </section>
+
+    <!-- right column: telemetry and leaderboard -->
+    <aside class="side">
+      <div class="panel">
+        <div class="panel-head">Leaderboard</div>
+        <table class="board" id="board">
+          <thead><tr><th>player</th><th>score</th><th>wave</th></tr></thead>
+          <tbody id="boardBody"><tr><td colspan="3" class="muted">loading…</td></tr></tbody>
+        </table>
+        <div class="board-sort">
+          sort:
+          <button class="chip" data-sort="score">by score</button>
+          <button class="chip" data-sort="wave">by wave</button>
+          <button class="chip" data-sort="username">by name</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">Telemetry</div>
+        <div class="telemetry" id="telemetry"></div>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<!-- sign-in modal -->
+<div class="modal" id="authModal" hidden>
+  <div class="modal-card">
+    <button class="modal-x" id="authClose">×</button>
+    <h2>Enter the arena</h2>
+    <p class="muted">Your name is saved to the leaderboard. An account keeps your personal score.</p>
+    <label>Player name<input type="text" id="authUser" autocomplete="username"></label>
+    <label>Password<input type="password" id="authPass" autocomplete="current-password"></label>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="doRegister">Create</button>
+      <button class="btn btn-primary" id="doLogin">Sign in</button>
+    </div>
+    <p class="modal-msg" id="authMsg"></p>
+  </div>
+</div>
+
+<script src="/static/game.js"></script>
+</body>
+</html>

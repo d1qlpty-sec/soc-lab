@@ -1,0 +1,14 @@
+[Unit]
+Description=Firewall Siege (vulnerable target app)
+After=network.target
+
+[Service]
+Type=simple
+User=webadmin
+WorkingDirectory=/opt/firewall-siege
+ExecStart=/opt/firewall-siege/venv/bin/python /opt/firewall-siege/app.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

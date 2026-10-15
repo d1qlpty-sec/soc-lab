@@ -1,0 +1,22 @@
+# Secrets — never commit
+SECRETS.md
+*secret*
+*.key
+*.pem
+config.py
+wg-*.conf
+*.priv
+honey_host_key*
+
+# Runtime / data
+*.db
+*.sqlite
+logs/*.log
+venv/
+__pycache__/
+*.pyc
+
+# Local notes with credentials
+CONTINUE-new-chat.md
+lab-journal.md
+app-dev-journal.md
